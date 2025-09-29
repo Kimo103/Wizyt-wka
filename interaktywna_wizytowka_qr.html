@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Magdalena Ekwińska‑Cyl – wizytówka</title>
+  <meta name="description" content="Interaktywna wizytówka z szybkim wybieraniem, e‑mailem, mapą i przyciskiem zapisu kontaktu (VCF)." />
+  <style>
+    :root{--bg:#163d1e;--card:#ffffff;--muted:#6b7280;--text:#0f172a;--accent:#0ea5e9;--radius:22px}
+    *{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:var(--bg);color:var(--text);}
+    .wrap{min-height:100svh;display:grid;place-items:center;padding:20px}
+    .card{width:100%;max-width:420px;background:var(--card);border-radius:var(--radius);box-shadow:0 10px 30px rgba(0,0,0,.15);padding:26px}
+    .logo{display:grid;place-items:center;margin-bottom:8px}
+    .logo img{height:72px;width:auto}
+    h1{font-size:1.35rem;line-height:1.2;text-align:center;margin:10px 0 16px}
+    .section{border-top:1px solid #e5e7eb;padding-top:14px;margin-top:14px}
+    .row{display:flex;gap:12px;align-items:center;padding:10px 6px;border-radius:14px}
+    .row a{color:inherit;text-decoration:none;flex:1}
+    .row small{display:block;color:var(--muted);margin-top:4px}
+    .row:hover{background:#f8fafc}
+    .icon{width:26px;height:26px;display:grid;place-items:center;opacity:.9}
+    .btn{display:inline-flex;align-items:center;gap:8px;background:#0f172a;color:white;border:none;padding:12px 16px;border-radius:14px;font-weight:600;cursor:pointer;text-decoration:none}
+    .btn:active{transform:translateY(1px)}
+    .footer{display:grid;place-items:center;margin-top:16px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <main class="card" role="main">
+      <div class="logo">
+        <!-- Podmień src na swoje logo -->
+        <img src="https://dummyimage.com/160x72/163d1e/ffffff&text=BDU+LOGO" alt="Bydgoski Dom Ubezpieczeń" />
+      </div>
+      <h1>Magdalena Ekwińska‑Cyl</h1>
+
+      <div class="section" aria-label="Dane kontaktowe">
+        <div class="row">
+          <div class="icon" aria-hidden="true">☎️</div>
+          <a href="tel:+48601194030" rel="noopener" title="Zadzwoń">
+            <div>Numer telefonu<br /><small>+48 601 194 030</small></div>
+          </a>
+        </div>
+        <div class="row">
+          <div class="icon" aria-hidden="true">✉️</div>
+          <a href="mailto:magdalena.ekwinska@bdu.com.pl" rel="noopener" title="Napisz e‑mail">
+            <div>Adres e‑mail<br /><small>magdalena.ekwinska@bdu.com.pl</small></div>
+          </a>
+        </div>
+        <div class="row">
+          <div class="icon" aria-hidden="true">📍</div>
+          <a href="https://maps.google.com/?q=Gda%C5%84ska%20143%2C%20Bydgoszcz%2C%2085-022%2C%20Polska" target="_blank" rel="noopener" title="Otwórz w mapach">
+            <div>Adres biura<br /><small>Gdańska 143, Bydgoszcz, 85‑022, Polska</small></div>
+          </a>
+        </div>
+      </div>
+
+      <div class="footer">
+        <button id="saveContact" class="btn" type="button">💾 Zapisz kontakt</button>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Generowanie i pobranie pliku VCF po kliknięciu
+    const btn = document.getElementById('saveContact');
+    btn.addEventListener('click', () => {
+      const vcf = [
+        'BEGIN:VCARD',
+        'VERSION:3.0',
+        'N:Ekwińska-Cyl;Magdalena;;;',
+        'FN:Magdalena Ekwińska-Cyl',
+        'ORG:Bydgoski Dom Ubezpieczeń',
+        // 'TITLE:Agent Ubezpieczeniowy', // opcjonalnie
+        'TEL;TYPE=CELL:+48601194030',
+        'EMAIL:magdalena.ekwinska@bdu.com.pl',
+        'ADR;TYPE=WORK:;;Gdańska 143;Bydgoszcz;;85-022;Polska',
+        // 'URL:https://twoja-strona.pl', // opcjonalnie
+        'END:VCARD' 
+      ].join('\n');
+
+      const blob = new Blob([vcf], { type: 'text/vcard;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'Magdalena_Ekwinska-Cyl.vcf';
+      document.body.appendChild(a);
+      a.click();
+      URL.revokeObjectURL(url);
+      a.remove();
+    });
+  </script>
+</body>
+</html>
